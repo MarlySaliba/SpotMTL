@@ -1,12 +1,40 @@
-# React + Vite
+# SpotMTL 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**SpotMTL** is a web application designed to help users explore all the attractions that Montreal has to offer — from cultural landmarks and outdoor spots to restaurants and hidden gems. It provides an organized, visually engaging, and user-friendly platform to search, view, and categorize destinations across the city.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Below is a general overview of the files and their roles within the project:
 
-## Expanding the ESLint configuration
+- `src/Pages/Login.js` – Handles user authentication and login/signup UI.
+- `src/Pages/MyList.js` – Displays the user's saved attractions or personalized list.
+- `src/Pages/Search.js` – Allows users to search for attractions using keywords or categories.
+- `src/Pages/Menu.js` – Contains the main navigation menu or side drawer.
+- `src/components/` – Contains reusable UI components (buttons, cards, modals, etc.).
+- `src/App.js` – Manages app-wide routing and renders the correct pages.
+- `src/AuthContext.js` – Provides authentication context for user session handling.
+- `src/firebase.js` – Configuration and setup for Firebase (used for storage and auth).
+- `public/` – Contains static assets like images, favicon, and the main HTML entry point.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+_Note: File names and structure may evolve as the project grows._
+
+## Tech Stack
+
+### Languages & Frameworks
+- **JavaScript** – Main scripting language used
+- **JSX** – For building UI components in React
+- **HTML5** & **CSS3** – Base web technologies
+
+### UI & Styling
+- **React.js** – Frontend framework for building dynamic interfaces
+- **Tailwind CSS** – Utility-first CSS framework for styling components
+
+### Platforms & Services
+- **Firebase** – For authentication and image storage
+- **GitHub** – Version control and collaboration
+- **Vite** – Fast development build tool
+- **Visual Studio Code** – Main development environment
+
+---
+
+Feel free to open an issue or contact us for contributions, feedback, or improvements. Stay tuned for more updates as we expand the features!
