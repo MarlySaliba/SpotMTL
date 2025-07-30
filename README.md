@@ -31,7 +31,8 @@ Static files such as images, icons, and logos.
 
 ---
 
-## 🔧 Configuration & Core Files
+
+## Configuration & Core Files
 
 - `App.jsx` – Main application logic and route rendering.
 - `App.css` – Global styles (may be overridden by Tailwind).
