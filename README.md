@@ -6,15 +6,47 @@
 
 Below is a general overview of the files and their roles within the project:
 
-- `src/Pages/Login.js` – Handles user authentication and login/signup UI.
-- `src/Pages/MyList.js` – Displays the user's saved attractions or personalized list.
-- `src/Pages/Search.js` – Allows users to search for attractions using keywords or categories.
-- `src/Pages/Menu.js` – Contains the main navigation menu or side drawer.
-- `src/components/` – Contains reusable UI components (buttons, cards, modals, etc.).
-- `src/App.js` – Manages app-wide routing and renders the correct pages.
-- `src/AuthContext.js` – Provides authentication context for user session handling.
-- `src/firebase.js` – Configuration and setup for Firebase (used for storage and auth).
-- `public/` – Contains static assets like images, favicon, and the main HTML entry point.
+
+### authentication/
+Handles all user login and signup functionalities:
+- `Login.jsx` – UI and logic for user login.
+- `Signup.jsx` – UI and logic for user registration.
+
+### Components/
+Reusable components across the app:
+- `Footer.jsx` – Bottom footer for all pages.
+- `NavBar.jsx` – Navigation bar with links.
+- `ProtectedRoute.jsx` – Restricts page access unless authenticated.
+- `SearchBar.jsx` – Multi-category search component for the main search page.
+
+### Pages/
+Main application views:
+- `Home.jsx` – Landing page or main dashboard after login.
+- `Menu.jsx` – Possibly a navigation or menu page for different sections.
+- `MyList.jsx` – Displays the user's saved attractions or favorites.
+- `Search.jsx` – Advanced search interface to explore Montreal by categories.
+
+### assets/
+Static files such as images, icons, and logos.
+
+---
+
+## 🔧 Configuration & Core Files
+
+- `App.jsx` – Main application logic and route rendering.
+- `App.css` – Global styles (may be overridden by Tailwind).
+- `index.css` – Base styles used across the app.
+- `main.jsx` – Entry point that renders `<App />` into the DOM.
+- `index.html` – Root HTML file where the app is mounted.
+
+### 🛠 Config Files:
+- `tailwind.config.js` – TailwindCSS setup and theme config.
+- `vite.config.js` – Configuration for Vite (build tool).
+- `.eslintrc.js` – Code style and linting rules.
+- `package.json` – Project metadata and dependencies.
+- `.gitignore` – Files and folders to exclude from version control.
+
+---
 
 _Note: File names and structure may evolve as the project grows._
 
