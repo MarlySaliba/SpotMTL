@@ -30,7 +30,7 @@ export default function Search() {
   // Track if the user has clicked search
   const [hasSearched, setHasSearched] = useState(false);
 
-  // Function that simulates searching
+  // Function that simulates searching this section will have to change when i actually add options to  the search menu.
   const handleSearch = () => {
     setHasSearched(true); // Mark that the search has been performed
     const fakeData = [];  // Simulate no results
