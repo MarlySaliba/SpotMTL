@@ -1,19 +1,13 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import Header from './Components/Header.jsx'
-import Landing from './Components/Landing.jsx'
+import Search from "./Pages/Search";
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div>
-    <Header/>
-    <Landing/>
+      <Search />
     </div>
-  )
+  );
 }
 
 export default App
