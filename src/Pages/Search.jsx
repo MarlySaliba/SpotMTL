@@ -127,7 +127,7 @@ export default function Search() {
         {/* Search Button */}
         <button
           onClick={handleSearch}
-          className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 mx-auto block"
+          className="block px-6 py-2 mx-auto mt-6 text-white rounded bg-lime-500 hover:bg-yellow-500"
         >
           Search
         </button>
@@ -135,7 +135,7 @@ export default function Search() {
 
       {/* Results area below */}
       {hasSearched && (
-        <div className="mt-6 w-full max-w-3xl">
+        <div className="w-full max-w-3xl mt-6">
           {results.length === 0 ? (
             <p className="text-center text-gray-500">
               No results found for the selected categories.
