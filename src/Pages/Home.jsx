@@ -52,7 +52,7 @@ export default function Home() {
                 Montreal — all in one place.
               </p>
               <Link
-                to="/search"
+                to="../Pages/Search"
                 className="inline-block px-6 py-3 font-medium text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700"
                 aria-label="Start exploring Montreal on the search page"
               >

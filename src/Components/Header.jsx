@@ -13,7 +13,7 @@ export default function Header() {
   
   const menuList = [
     { id: 1, title: "HOME", path: "../Pages/Home"},
-    { id: 2, title: "ABOUT", path: "../Pages/About"},
+    { id: 2, title: "LOGIN", path: "../Pages/Login"},
     { id: 3, title: "SERVICE", path: "../Pages/Service"},
     { id: 4, title: "SEARCH", path: "../Pages/Search"},
     { id: 5, title: "ACTIVITY", path: "../Pages/Activity" },
@@ -28,7 +28,7 @@ export default function Header() {
   };
   
   return (
-    <header className="bg-white shadow-md">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
       <div className="relative flex items-center justify-between p-4">
         {/* Logo */}
         <Link 
