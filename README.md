@@ -18,6 +18,7 @@ Reusable components across the app:
 - `NavBar.jsx` – Navigation bar with links.
 - `ProtectedRoute.jsx` – Restricts page access unless authenticated.
 - `SearchBar.jsx` – Multi-category search component for the main search page.
+- `Header.jsx` - Header in all the different pages of the website.
 
 ### Pages/
 Main application views:

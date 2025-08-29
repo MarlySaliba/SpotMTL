@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
+import attractions from "../Components/SearchBar";
 
 export default function Search() {
   const categoryData = {
-    activity: ["Not Specified", "Hiking", "Skiing", "Museum", "Escape Room", "Eating Out", "Dining In"],
+    activity: ["Not Specified", "Hiking", "Skiing", "Museum", "Escape Room", "Eating Out", "Dining In"], //Organize the entire list by alphabetical order
     price: ["Not Specified", "Free", "$", "$$", "$$$"],
-    location: ["Not Specified", "Downtown", "Nature", "Suburbs"],
+    location: ["Not Specified", "Downtown", "Nature", "Suburbs", "Chinatown"],
     effort: ["Not Specified", "Low", "Medium", "High"],
     groupSize: ["Not Specified", "Solo", "Couple", "Family", "Group"],
     season: ["Not Specified", "Summer", "Fall", "Winter", "Spring"],
     time: ["Not Specified", "Morning", "Afternoon", "Evening"],
+    dietary_Restrictions: ["Not Specified","Vegan", "Vegetarian", "Halal"]
   };
 
   const [selected, setSelected] = useState({
@@ -19,9 +21,10 @@ export default function Search() {
     groupSize: "Not Specified",
     season: "Not Specified",
     time: "Not Specified",
+    dietary_Restrictions: "Not Specified",
   });
 
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(attractions);
   const [hasSearched, setHasSearched] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
@@ -48,7 +51,7 @@ export default function Search() {
   const handleSearch = () => {
     setHasSearched(true);
     const fakeData = []; // replace with real results later
-    setResults(fakeData);
+    setResults(attractions);
   };
 
   const scale = Math.max(0.8, 1 - scrollY * 0.001);
@@ -57,7 +60,7 @@ export default function Search() {
   return (
     <div className="min-h-screen pt-24 bg-gray-100">
       {/* Centering wrapper */}
-      <div className="flex items-center justify-center h-[80vh] pointer-events-none">
+      <div className="flex items-center justify-center h-[60vh] pointer-events-none">
         {/* Animated Search Box */}
         <div
           className={`transition-all duration-300 ease-in-out transform ${translateY} pointer-events-auto`}
@@ -88,7 +91,7 @@ export default function Search() {
 
             {/* Bottom row: 3 dropdowns */}
             <div className="flex justify-center gap-4 mt-4">
-              {["groupSize", "season", "time"].map((key) => (
+              {["groupSize", "season", "time", "dietary_Restrictions"].map((key) => (
                 <div key={key} className="w-[200px]">
                   <label className="block mb-1 font-medium capitalize">{key}</label>
                   <select
@@ -127,7 +130,7 @@ export default function Search() {
               No results found for the selected categories.
             </p>
           ) : (
-            <ul className="p-4 bg-white rounded-lg shadow-md">
+            <ul className="p-4 bg-white rounded-lg shadow-md ">
               {results.map((r, idx) => (
                 <li key={idx}>{r.name}</li>
               ))}
