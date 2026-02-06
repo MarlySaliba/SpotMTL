@@ -28,14 +28,12 @@ export default function Search() {
   const [hasSearched, setHasSearched] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
-  // Handle scroll position
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock/unlock scroll based on search state
   useEffect(() => {
     if (!hasSearched) {
       document.body.classList.add("overflow-hidden");
@@ -59,7 +57,6 @@ export default function Search() {
 
   return (
     <div className="min-h-screen pt-24 bg-gray-100">
-      {/* Centering wrapper */}
       <div className="flex items-center justify-center h-[60vh] pointer-events-none">
         {/* Animated Search Box */}
         <div
@@ -122,7 +119,6 @@ export default function Search() {
         </div>
       </div>
 
-      {/* Results Section BELOW search box */}
       {hasSearched && (
         <div className="w-full max-w-3xl px-4 mx-auto mt-2">
           {results.length === 0 ? (

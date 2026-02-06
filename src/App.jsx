@@ -9,10 +9,7 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        {/* Default Page */}
         <Route path="/" element={<Home />}/>
-
-        {/* Remaining pages */}
         <Route path="/Pages/Home" element={<Home />} />
         <Route path="/Pages/Search" element={<Search />} />
       </Routes>

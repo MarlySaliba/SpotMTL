@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-// Put these files in src/assets/ (or adjust paths if you use /public)
 import img1 from "../assets/Dome_expo.jpg";
 import img2 from "../assets/downtown_night.jpg";
 import img3 from "../assets/LaRonde.webp";
@@ -38,10 +37,8 @@ export default function Home() {
             />
           ))}
 
-          {/* Overlay to keep text readable */}
           <div className="absolute inset-0 bg-black/35" />
 
-          {/* Centered content */}
           <div className="relative z-10 flex items-center justify-center h-full p-6">
             <div className="max-w-2xl text-center">
               <h1 className="mb-4 text-4xl font-bold text-white">
