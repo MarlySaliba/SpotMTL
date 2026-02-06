@@ -41,7 +41,7 @@ Static files such as images, icons, and logos.
 - `main.jsx` – Entry point that renders `<App />` into the DOM.
 - `index.html` – Root HTML file where the app is mounted.
 
-### 🛠 Config Files:
+### Configuration Files:
 - `tailwind.config.js` – TailwindCSS setup and theme config.
 - `vite.config.js` – Configuration for Vite (build tool).
 - `.eslintrc.js` – Code style and linting rules.
@@ -71,4 +71,3 @@ _Note: File names and structure may evolve as the project grows._
 
 ---
 
-Feel free to open an issue or contact us for contributions, feedback, or improvements. Stay tuned for more updates as we expand the features!
