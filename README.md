@@ -1,73 +1,248 @@
-# SpotMTL 
+# SpotMTL
 
-**SpotMTL** is a web application designed to help users explore all the attractions that Montreal has to offer — from cultural landmarks and outdoor spots to restaurants and hidden gems. It provides an organized, visually engaging, and user-friendly platform to search, view, and categorize destinations across the city.
+SpotMTL is a web application for discovering attractions, activities,
+restaurants, outdoor locations, and hidden gems across Montreal.
 
-## Project Structure
+## Current status
 
-Below is a general overview of the files and their roles within the project:
+SpotMTL is currently an early full-stack prototype. The React home and search
+interfaces are available, and the Express server can connect to PostgreSQL.
+The search page still uses hard-coded attraction data.
 
+Implemented backend infrastructure:
 
-### authentication/
-Handles all user login and signup functionalities:
-- `Login.jsx` – UI and logic for user login.
-- `Signup.jsx` – UI and logic for user registration.
+- Environment-based PostgreSQL configuration
+- A reusable PostgreSQL connection pool
+- Database verification before the API starts
+- Database connection logging and error handling
+- Graceful HTTP server and database-pool shutdown
+- API and database health-check endpoints
+- Automated configuration and health-endpoint tests
 
-### Components/
-Reusable components across the app:
-- `Footer.jsx` – Bottom footer for all pages.
-- `NavBar.jsx` – Navigation bar with links.
-- `ProtectedRoute.jsx` – Restricts page access unless authenticated.
-- `SearchBar.jsx` – Multi-category search component for the main search page.
-- `Header.jsx` - Header in all the different pages of the website.
+Not implemented yet:
 
-### Pages/
-Main application views:
-- `Home.jsx` – Landing page or main dashboard after login.
-- `Menu.jsx` – Possibly a navigation or menu page for different sections.
-- `MyList.jsx` – Displays the user's saved attractions or favorites.
-- `Search.jsx` – Advanced search interface to explore Montreal by categories.
+- Database migrations and application tables
+- Attraction API endpoints
+- Moving the hard-coded attraction into PostgreSQL
+- Authentication, protected routes, and saved attraction lists
+- Firebase integration; Firebase is not installed or used by the application
 
-### assets/
-Static files such as images, icons, and logos.
+## Architecture
 
----
+```text
+React + Vite frontend (port 5173)
+              |
+              | HTTP API requests
+              v
+Node + Express API (port 3001)
+              |
+              | pg connection pool
+              v
+PostgreSQL database (port 5432 by default)
+```
 
+The browser never connects directly to PostgreSQL. Database credentials remain
+on the server. When attraction integration is added, the React frontend will
+retrieve data through the Express API.
 
-## Configuration & Core Files
+## Tech stack
 
-- `App.jsx` – Main application logic and route rendering.
-- `App.css` – Global styles (may be overridden by Tailwind).
-- `index.css` – Base styles used across the app.
-- `main.jsx` – Entry point that renders `<App />` into the DOM.
-- `index.html` – Root HTML file where the app is mounted.
+### Frontend
 
-### Configuration Files:
-- `tailwind.config.js` – TailwindCSS setup and theme config.
-- `vite.config.js` – Configuration for Vite (build tool).
-- `.eslintrc.js` – Code style and linting rules.
-- `package.json` – Project metadata and dependencies.
-- `.gitignore` – Files and folders to exclude from version control.
+- JavaScript and JSX
+- React
+- React Router
+- Vite
+- Tailwind CSS
 
----
+### Backend and database
 
-_Note: File names and structure may evolve as the project grows._
+- Node.js using ES modules
+- Express for the HTTP API
+- PostgreSQL for persistent data
+- `pg` for PostgreSQL connections and pooling
+- `dotenv` for local environment-variable loading
+- `cors` for controlled frontend access to the API
 
-## Tech Stack
+Firebase appeared in an earlier project plan, but it is not currently
+integrated. Authentication and image storage providers will be selected in a
+future phase.
 
-### Languages & Frameworks
-- **JavaScript** – Main scripting language used
-- **JSX** – For building UI components in React
-- **HTML5** & **CSS3** – Base web technologies
+## Project structure
 
-### UI & Styling
-- **React.js** – Frontend framework for building dynamic interfaces
-- **Tailwind CSS** – Utility-first CSS framework for styling components
+```text
+SpotMTL/
+|-- src/                     React application
+|   |-- authentication/      Planned login and signup components
+|   |-- Components/          Shared UI components and current mock data
+|   |-- Pages/               Application pages
+|   `-- assets/              Static images
+|-- server/                  Express and PostgreSQL backend
+|   |-- scripts/             Command-line database utilities
+|   |-- test/                Backend tests
+|   |-- .env.example         Safe environment-variable template
+|   |-- app.js               Express application and health routes
+|   |-- config.js            Environment loading and validation
+|   |-- db.js                Reusable PostgreSQL connection pool
+|   |-- logging.js           Credential-safe error logging
+|   `-- server.js            API startup and graceful shutdown
+|-- package.json             Frontend scripts and dependencies
+`-- server/package.json      Backend scripts and dependencies
+```
 
-### Platforms & Services
-- **Firebase** – For authentication and image storage
-- **GitHub** – Version control and collaboration
-- **Vite** – Fast development build tool
-- **Visual Studio Code** – Main development environment
+## Prerequisites
 
----
+- Node.js 20 or newer
+- npm
+- PostgreSQL
+- A PostgreSQL administrator account that can create roles and databases
 
+## PostgreSQL setup
+
+### 1. Create the application role and database
+
+The following commands create a non-superuser application account and prompt
+you to choose its password:
+
+```powershell
+createuser -h localhost -p 5432 -U postgres --pwprompt spotmtl_app
+createdb -h localhost -p 5432 -U postgres -O spotmtl_app spotmtl
+```
+
+If the PostgreSQL commands are not on your Windows `PATH`, run them from the
+PostgreSQL `bin` directory or create the same login role and database through
+pgAdmin. Do not give `spotmtl_app` superuser privileges.
+
+### 2. Install dependencies
+
+From the repository root:
+
+```powershell
+npm install
+npm --prefix server install
+```
+
+If PowerShell blocks `npm.ps1`, use `npm.cmd` in place of `npm`.
+
+### 3. Configure local environment variables
+
+Copy the safe template to a local `.env` file:
+
+```powershell
+Copy-Item server\.env.example server\.env
+```
+
+Then edit `server/.env` and replace the placeholder password with the password
+chosen for `spotmtl_app`:
+
+```dotenv
+DATABASE_URL=
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=spotmtl
+DB_USER=spotmtl_app
+DB_PASSWORD="replace-with-your-own-password"
+```
+
+`server/.env` is ignored by Git and must never be committed. Commit only
+`server/.env.example`, which contains no real credentials.
+
+For a hosted PostgreSQL provider, set `DATABASE_URL` to the provider's URL.
+When `DATABASE_URL` is present, it takes precedence over the individual
+`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` values.
+
+## Environment variables
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `NODE_ENV` | No | Runtime environment; defaults to `development` |
+| `PORT` | No | Express API port; defaults to `3001` |
+| `CLIENT_ORIGIN` | No | Frontend origin allowed by CORS; defaults to `http://localhost:5173` |
+| `DATABASE_URL` | Conditional | Complete PostgreSQL URL; replaces the individual connection values when set |
+| `DB_HOST` | Without `DATABASE_URL` | PostgreSQL hostname |
+| `DB_PORT` | Without `DATABASE_URL` | PostgreSQL port |
+| `DB_NAME` | Without `DATABASE_URL` | Database name |
+| `DB_USER` | Without `DATABASE_URL` | Application role name |
+| `DB_PASSWORD` | Without `DATABASE_URL` | Application role password |
+| `DB_SSL` | No | Set to `true` when the provider requires TLS |
+| `DB_SSL_REJECT_UNAUTHORIZED` | No | Controls TLS certificate validation; defaults to `true` |
+| `DB_POOL_MAX` | No | Maximum pool connections; defaults to `10` |
+| `DB_IDLE_TIMEOUT_MS` | No | Idle connection timeout; defaults to `30000` |
+| `DB_CONNECTION_TIMEOUT_MS` | No | New connection timeout; defaults to `5000` |
+
+## Verify the database connection
+
+Run the standalone connection check from the repository root:
+
+```powershell
+npm run db:check
+```
+
+A valid configuration prints a `Connected successfully` message. Invalid or
+missing configuration exits with a non-zero status without starting the API.
+
+## Run the application
+
+Start the Express backend in one terminal:
+
+```powershell
+npm run dev:server
+```
+
+Start the Vite frontend in another terminal:
+
+```powershell
+npm run dev
+```
+
+The frontend is available at `http://localhost:5173`, and the API is available
+at `http://localhost:3001` by default.
+
+## Health checks
+
+Process health:
+
+```text
+GET http://localhost:3001/api/health
+```
+
+PostgreSQL connection health:
+
+```text
+GET http://localhost:3001/api/health/database
+```
+
+Test the database endpoint from PowerShell:
+
+```powershell
+Invoke-RestMethod http://localhost:3001/api/health/database
+```
+
+A successful database response has this shape:
+
+```json
+{
+  "status": "ok",
+  "database": "connected",
+  "databaseTime": "2026-07-10T12:00:00.000Z",
+  "latencyMs": 4
+}
+```
+
+The endpoint returns HTTP `503` with a generic response if PostgreSQL becomes
+unavailable. Database credentials and raw errors are never returned to the
+client.
+
+## Tests and production build
+
+```powershell
+npm run test:server
+npm run build
+```
+
+## Database migrations
+
+There is currently no migration command because the application schema has not
+been created yet. The next backend phase is to add versioned migrations,
+create the attraction tables, implement attraction endpoints, seed the existing
+mock attraction, and update the React search page to call the API.
