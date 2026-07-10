@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:server": "npm --prefix server run dev",
+    "start:server": "npm --prefix server run start",
+    "db:check": "npm --prefix server run db:check",
+    "test:server": "npm --prefix server test",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
