@@ -1,4 +1,4 @@
-function redact(value, secrets) {
+function redact(value: string, secrets: Array<string | undefined>): string {
   let redactedValue = value;
 
   for (const secret of secrets) {
@@ -13,17 +13,18 @@ function redact(value, secrets) {
   );
 }
 
-export function getSafeErrorDetails(error, environment = process.env) {
+export function getSafeErrorDetails(
+  error: unknown,
+  environment: NodeJS.ProcessEnv = process.env,
+): string {
   const message = error instanceof Error ? error.message : String(error);
-  const code = typeof error?.code === "string" ? error.code : undefined;
+  const errorWithCode = error as { code?: unknown };
+  const code =
+    typeof errorWithCode?.code === "string" ? errorWithCode.code : undefined;
   const safeMessage = redact(message || "Unknown error", [
     environment.DATABASE_URL,
     environment.DB_PASSWORD,
   ]);
 
   return code ? `[${code}] ${safeMessage}` : safeMessage;
-}
-
-export function logOperationalError(logger, context, error) {
-  logger.error(`${context}: ${getSafeErrorDetails(error)}`);
 }

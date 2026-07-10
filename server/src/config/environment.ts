@@ -1,19 +1,40 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
+import type { PoolConfig } from "pg";
 
-const serverDirectory = path.dirname(fileURLToPath(import.meta.url));
+export const APPLICATION_CONFIGURATION_KEY = "spotmtl";
 
-dotenv.config({
-  path: path.join(serverDirectory, ".env"),
-  quiet: true,
-});
+export interface DatabaseTarget {
+  host: string;
+  port: string;
+  database: string;
+  source: "DATABASE_URL" | "DB_* variables";
+}
 
-function readString(value) {
+export interface DatabaseConfiguration {
+  poolOptions: PoolConfig;
+  target: DatabaseTarget;
+}
+
+export interface ServerConfiguration {
+  nodeEnv: string;
+  port: number;
+  clientOrigin: string;
+}
+
+export interface ApplicationConfiguration {
+  server: ServerConfiguration;
+  database: DatabaseConfiguration;
+}
+
+function readString(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function parseInteger(name, value, fallback, { min = 1, max = 65_535 } = {}) {
+function parseInteger(
+  name: string,
+  value: unknown,
+  fallback?: number,
+  { min = 1, max = 65_535 }: { min?: number; max?: number } = {},
+): number {
   const normalizedValue = readString(value);
 
   if (!normalizedValue && fallback !== undefined) {
@@ -33,7 +54,11 @@ function parseInteger(name, value, fallback, { min = 1, max = 65_535 } = {}) {
   return parsedValue;
 }
 
-function parseBoolean(name, value, fallback) {
+function parseBoolean(
+  name: string,
+  value: unknown,
+  fallback?: boolean,
+): boolean {
   const normalizedValue = readString(value).toLowerCase();
 
   if (!normalizedValue && fallback !== undefined) {
@@ -51,8 +76,8 @@ function parseBoolean(name, value, fallback) {
   throw new Error(`${name} must be either true or false.`);
 }
 
-function parseDatabaseUrl(databaseUrl) {
-  let parsedUrl;
+function parseDatabaseUrl(databaseUrl: string): DatabaseTarget {
+  let parsedUrl: URL;
 
   try {
     parsedUrl = new URL(databaseUrl);
@@ -61,20 +86,26 @@ function parseDatabaseUrl(databaseUrl) {
   }
 
   if (!["postgres:", "postgresql:"].includes(parsedUrl.protocol)) {
-    throw new Error("DATABASE_URL must use the postgres:// or postgresql:// protocol.");
+    throw new Error(
+      "DATABASE_URL must use the postgres:// or postgresql:// protocol.",
+    );
   }
 
   return {
     host: parsedUrl.hostname || "configured host",
     port: parsedUrl.port || "5432",
-    database: decodeURIComponent(parsedUrl.pathname.replace(/^\//, "")) || "configured database",
+    database:
+      decodeURIComponent(parsedUrl.pathname.replace(/^\//, "")) ||
+      "configured database",
     source: "DATABASE_URL",
   };
 }
 
-export function getDatabaseConfig(environment = process.env) {
+export function getDatabaseConfig(
+  environment: Record<string, unknown>,
+): DatabaseConfiguration {
   const databaseUrl = readString(environment.DATABASE_URL);
-  const poolOptions = {
+  const poolOptions: PoolConfig = {
     max: parseInteger("DB_POOL_MAX", environment.DB_POOL_MAX, 10, { max: 100 }),
     idleTimeoutMillis: parseInteger(
       "DB_IDLE_TIMEOUT_MS",
@@ -90,7 +121,7 @@ export function getDatabaseConfig(environment = process.env) {
     ),
   };
 
-  let target;
+  let target: DatabaseTarget;
 
   if (databaseUrl) {
     poolOptions.connectionString = databaseUrl;
@@ -103,17 +134,16 @@ export function getDatabaseConfig(environment = process.env) {
       user: readString(environment.DB_USER),
       password: readString(environment.DB_PASSWORD),
     };
+    const variableNames: Record<keyof typeof values, string> = {
+      host: "DB_HOST",
+      port: "DB_PORT",
+      database: "DB_NAME",
+      user: "DB_USER",
+      password: "DB_PASSWORD",
+    };
     const missingVariables = Object.entries(values)
       .filter(([, value]) => !value)
-      .map(([key]) =>
-        ({
-          host: "DB_HOST",
-          port: "DB_PORT",
-          database: "DB_NAME",
-          user: "DB_USER",
-          password: "DB_PASSWORD",
-        })[key],
-      );
+      .map(([key]) => variableNames[key as keyof typeof values]);
 
     if (missingVariables.length > 0) {
       throw new Error(
@@ -121,7 +151,7 @@ export function getDatabaseConfig(environment = process.env) {
       );
     }
 
-    const port = parseInteger("DB_PORT", values.port, undefined);
+    const port = parseInteger("DB_PORT", values.port);
 
     Object.assign(poolOptions, {
       host: values.host,
@@ -157,10 +187,27 @@ export function getDatabaseConfig(environment = process.env) {
   return { poolOptions, target };
 }
 
-export function getServerConfig(environment = process.env) {
+export function getServerConfig(
+  environment: Record<string, unknown>,
+): ServerConfiguration {
   return {
     nodeEnv: readString(environment.NODE_ENV) || "development",
     port: parseInteger("PORT", environment.PORT, 3001),
-    clientOrigin: readString(environment.CLIENT_ORIGIN) || "http://localhost:5173",
+    clientOrigin:
+      readString(environment.CLIENT_ORIGIN) || "http://localhost:5173",
+  };
+}
+
+export function validateEnvironment(
+  environment: Record<string, unknown>,
+): Record<string, unknown> {
+  const configuration: ApplicationConfiguration = {
+    server: getServerConfig(environment),
+    database: getDatabaseConfig(environment),
+  };
+
+  return {
+    ...environment,
+    [APPLICATION_CONFIGURATION_KEY]: configuration,
   };
 }

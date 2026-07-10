@@ -6,7 +6,7 @@ restaurants, outdoor locations, and hidden gems across Montreal.
 ## Current status
 
 SpotMTL is currently an early full-stack prototype. The React home and search
-interfaces are available, and the Express server can connect to PostgreSQL.
+interfaces are available, and the NestJS API can connect to PostgreSQL.
 The search page still uses hard-coded attraction data.
 
 Implemented backend infrastructure:
@@ -34,7 +34,7 @@ React + Vite frontend (port 5173)
               |
               | HTTP API requests
               v
-Node + Express API (port 3001)
+Node + NestJS API using the Express adapter (port 3001)
               |
               | pg connection pool
               v
@@ -43,7 +43,7 @@ PostgreSQL database (port 5432 by default)
 
 The browser never connects directly to PostgreSQL. Database credentials remain
 on the server. When attraction integration is added, the React frontend will
-retrieve data through the Express API.
+retrieve data through the NestJS API.
 
 ## Tech stack
 
@@ -57,12 +57,13 @@ retrieve data through the Express API.
 
 ### Backend and database
 
-- Node.js using ES modules
-- Express for the HTTP API
+- Node.js
+- TypeScript
+- NestJS using its Express adapter for the HTTP API
 - PostgreSQL for persistent data
 - `pg` for PostgreSQL connections and pooling
-- `dotenv` for local environment-variable loading
-- `cors` for controlled frontend access to the API
+- `@nestjs/config` for validated environment configuration
+- NestJS modules, controllers, services, exception filters, and lifecycle hooks
 
 Firebase appeared in an earlier project plan, but it is not currently
 integrated. Authentication and image storage providers will be selected in a
@@ -77,22 +78,26 @@ SpotMTL/
 |   |-- Components/          Shared UI components and current mock data
 |   |-- Pages/               Application pages
 |   `-- assets/              Static images
-|-- server/                  Express and PostgreSQL backend
+|-- server/                  NestJS and PostgreSQL backend
 |   |-- scripts/             Command-line database utilities
 |   |-- test/                Backend tests
+|   |-- src/                 NestJS application source
+|   |   |-- common/          Shared filters and safe logging
+|   |   |-- config/          Validated environment configuration
+|   |   |-- database/        Injectable PostgreSQL service
+|   |   |-- health/          Health controller and module
+|   |   |-- app.module.ts    Root NestJS module
+|   |   `-- main.ts          API bootstrap
 |   |-- .env.example         Safe environment-variable template
-|   |-- app.js               Express application and health routes
-|   |-- config.js            Environment loading and validation
-|   |-- db.js                Reusable PostgreSQL connection pool
-|   |-- logging.js           Credential-safe error logging
-|   `-- server.js            API startup and graceful shutdown
+|   |-- nest-cli.json        NestJS CLI configuration
+|   `-- tsconfig.json        Backend TypeScript configuration
 |-- package.json             Frontend scripts and dependencies
 `-- server/package.json      Backend scripts and dependencies
 ```
 
 ## Prerequisites
 
-- Node.js 20 or newer
+- Node.js 20.11 or newer
 - npm
 - PostgreSQL
 - A PostgreSQL administrator account that can create roles and databases
@@ -156,7 +161,7 @@ When `DATABASE_URL` is present, it takes precedence over the individual
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `NODE_ENV` | No | Runtime environment; defaults to `development` |
-| `PORT` | No | Express API port; defaults to `3001` |
+| `PORT` | No | NestJS API port; defaults to `3001` |
 | `CLIENT_ORIGIN` | No | Frontend origin allowed by CORS; defaults to `http://localhost:5173` |
 | `DATABASE_URL` | Conditional | Complete PostgreSQL URL; replaces the individual connection values when set |
 | `DB_HOST` | Without `DATABASE_URL` | PostgreSQL hostname |
@@ -183,7 +188,7 @@ missing configuration exits with a non-zero status without starting the API.
 
 ## Run the application
 
-Start the Express backend in one terminal:
+Start the NestJS backend in watch mode in one terminal:
 
 ```powershell
 npm run dev:server
@@ -237,6 +242,8 @@ client.
 
 ```powershell
 npm run test:server
+npm run lint:server
+npm run build:server
 npm run build
 ```
 
