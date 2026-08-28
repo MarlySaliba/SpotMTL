@@ -1,0 +1,84 @@
+.site-header {
+  @apply fixed inset-x-0 top-0 z-50 bg-white shadow-md;
+
+  &__inner {
+    @apply relative flex items-center justify-between px-4 py-3;
+
+    @media (min-width: 1024px) {
+      @apply px-6;
+    }
+  }
+
+  &__brand {
+    @apply shrink-0 text-2xl font-bold text-black;
+  }
+
+  &__brand-accent {
+    @apply text-green-600;
+  }
+
+  &__actions {
+    @apply flex items-center gap-3;
+  }
+
+  &__desktop-nav {
+    @apply hidden items-center gap-1;
+
+    @media (min-width: 1280px) {
+      @apply flex;
+    }
+  }
+
+  &__nav-button {
+    @apply whitespace-nowrap rounded-full border border-transparent px-2 py-1.5 text-xs;
+
+    &:hover {
+      @apply border-gray-400 text-green-700;
+    }
+  }
+
+  &__language-button {
+    @apply min-h-11 min-w-11 rounded-full border border-green-700 px-3 py-1.5 text-sm font-semibold text-green-800;
+
+    &:hover {
+      @apply bg-green-50;
+    }
+
+    &:focus-visible {
+      @apply outline-none ring-2 ring-green-700 ring-offset-2;
+    }
+  }
+
+  &__menu-toggle {
+    @apply flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 rounded-md;
+
+    &:focus-visible {
+      @apply outline-none ring-2 ring-green-700 ring-offset-2;
+    }
+
+    @media (min-width: 1280px) {
+      @apply hidden;
+    }
+  }
+
+  &__menu-toggle-line {
+    @apply block h-0.5 w-6 bg-black;
+  }
+
+  &__mobile-nav {
+    @apply absolute right-4 top-16 z-10 flex min-w-64 flex-col gap-3 overflow-y-auto rounded-md bg-white px-4 py-3 shadow-lg;
+    max-height: calc(100vh - 5rem);
+
+    @media (min-width: 1280px) {
+      @apply hidden;
+    }
+  }
+
+  &__mobile-link {
+    @apply text-left text-sm;
+
+    &:hover {
+      @apply text-green-700;
+    }
+  }
+}

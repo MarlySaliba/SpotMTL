@@ -1,0 +1,110 @@
+.search-page {
+  @apply min-h-screen bg-gray-100 pt-24;
+
+  &__title {
+    @apply sr-only;
+  }
+
+  &__stage {
+    @apply pointer-events-none flex min-h-[70vh] items-center justify-center px-4 py-8;
+  }
+
+  &__panel {
+    @apply pointer-events-auto w-full max-w-[1100px] transition-all duration-300 ease-in-out;
+    transform: translateY(0);
+
+    @for $step from 0 through 20 {
+      &--scale-#{$step} {
+        scale: 1 - ($step * 0.01);
+      }
+    }
+
+    &--searched {
+      transform: translateY(-2.5rem);
+    }
+  }
+
+  &__filters {
+    @apply mx-auto w-full rounded-lg bg-white p-6 shadow-lg;
+  }
+
+  &__filter-grid {
+    @apply grid grid-cols-1 gap-4;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    &--secondary {
+      @apply mt-4;
+    }
+  }
+
+  &__filter-label {
+    @apply mb-1 block font-medium;
+  }
+
+  &__filter-select {
+    @apply w-full rounded border p-2;
+  }
+
+  &__submit {
+    @apply mx-auto mt-6 block min-h-11 rounded bg-green-700 px-6 py-2 font-medium text-white;
+
+    &:hover {
+      @apply bg-green-800;
+    }
+
+    &:disabled {
+      @apply cursor-wait bg-green-500;
+    }
+  }
+
+  &__results {
+    @apply mx-auto mt-2 w-full max-w-3xl px-4 pb-10;
+  }
+
+  &__status {
+    @apply text-center text-gray-600;
+  }
+
+  &__error {
+    @apply rounded-lg border border-red-200 bg-red-50 p-5 text-center text-red-900;
+  }
+
+  &__retry {
+    @apply mt-4 min-h-11 rounded border border-red-700 px-4 py-2 font-medium;
+
+    &:hover {
+      @apply bg-red-100;
+    }
+  }
+
+  &__result-count {
+    @apply mb-3 text-sm font-medium text-gray-700;
+  }
+
+  &__result-list {
+    @apply grid gap-3;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__result-card {
+    @apply rounded-lg bg-white p-4 shadow-md;
+  }
+
+  &__result-title {
+    @apply font-semibold text-gray-950;
+  }
+
+  &__result-meta {
+    @apply mt-2 text-sm text-gray-600;
+  }
+}

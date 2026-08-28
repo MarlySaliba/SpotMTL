@@ -1,0 +1,69 @@
+.legal-page {
+  @apply mx-auto max-w-4xl px-6 pb-16 pt-28;
+}
+
+.legal-page__header {
+  @apply border-b border-gray-200 pb-8;
+}
+
+.legal-page__eyebrow {
+  @apply text-sm font-semibold uppercase tracking-widest text-green-700;
+}
+
+.legal-page__title {
+  @apply mt-3 text-3xl font-bold tracking-tight text-gray-950;
+}
+
+.legal-page__date {
+  @apply mt-4 text-sm text-gray-500;
+}
+
+.legal-page__intro {
+  @apply mt-5 leading-7 text-gray-700;
+}
+
+.legal-page__section-heading {
+  @apply mt-10 text-xl font-semibold text-gray-950;
+}
+
+.legal-page__paragraph {
+  @apply mt-3 leading-7 text-gray-700;
+}
+
+.legal-page__list {
+  @apply mt-4 list-disc pl-6 leading-7 text-gray-700;
+}
+
+.legal-page__list-item + .legal-page__list-item {
+  @apply mt-2;
+}
+
+.legal-page__link {
+  @apply font-medium text-green-700 underline;
+}
+
+.legal-summary {
+  @apply mt-8 rounded-2xl border border-green-200 bg-green-50 p-6;
+}
+
+.legal-summary__title {
+  @apply text-lg font-semibold text-green-950;
+}
+
+.legal-summary__list {
+  @apply mt-3 list-disc pl-5 leading-7 text-green-950;
+}
+
+.legal-summary__item + .legal-summary__item {
+  @apply mt-2;
+}
+
+@media (min-width: 640px) {
+  .legal-page {
+    @apply pt-32;
+  }
+
+  .legal-page__title {
+    @apply text-4xl;
+  }
+}

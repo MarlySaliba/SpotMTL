@@ -1,0 +1,61 @@
+.app-shell {
+  @apply flex min-h-screen flex-col bg-white text-gray-900;
+
+  &__main {
+    @apply flex-1;
+  }
+}
+
+.protected-route__status {
+  @apply px-6 pb-16 pt-32 text-center text-gray-600;
+}
+
+.site-footer {
+  @apply border-t border-gray-200 bg-gray-950 text-gray-200;
+
+  &__inner {
+    @apply mx-auto flex max-w-6xl flex-col gap-5 px-6 py-8;
+
+    @media (min-width: 640px) {
+      @apply flex-row items-end justify-between;
+    }
+  }
+
+  &__brand {
+    @apply text-lg font-semibold text-white;
+  }
+
+  &__brand-accent {
+    @apply text-green-400;
+  }
+
+  &__description {
+    @apply mt-2 max-w-xl text-sm leading-6 text-gray-400;
+  }
+
+  &__storage-note {
+    @apply mt-1 max-w-2xl text-xs leading-5 text-gray-400;
+  }
+
+  &__legal {
+    @media (min-width: 640px) {
+      @apply text-right;
+    }
+  }
+
+  &__nav {
+    @apply flex flex-wrap gap-x-5 gap-y-2;
+  }
+
+  &__link {
+    @apply text-sm;
+
+    &:hover {
+      @apply text-green-400;
+    }
+  }
+
+  &__copyright {
+    @apply mt-3 text-xs text-gray-400;
+  }
+}

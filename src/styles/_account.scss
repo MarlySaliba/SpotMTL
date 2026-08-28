@@ -1,0 +1,101 @@
+.account-page {
+  @apply mx-auto px-6 pb-16 pt-28;
+}
+
+.account-page--profile {
+  @apply max-w-2xl;
+}
+
+.account-page--admin {
+  @apply max-w-4xl;
+}
+
+.account-page__title {
+  @apply text-3xl font-bold tracking-tight text-gray-950;
+}
+
+.account-page__status {
+  @apply mt-6;
+}
+
+.account-page__status--error {
+  @apply rounded-md bg-red-50 p-4 text-red-800;
+}
+
+.account-page__logout {
+  @apply mt-6 min-h-11 rounded-md border border-gray-400 px-5 py-2 font-medium;
+}
+
+.account-page__logout:hover {
+  @apply border-red-700 text-red-800;
+}
+
+.account-details {
+  @apply mt-8 rounded-xl border border-gray-200 bg-white px-6 shadow-sm;
+}
+
+.account-details > * + * {
+  @apply border-t border-gray-200;
+}
+
+.account-details__row {
+  @apply py-4;
+}
+
+.account-details__term {
+  @apply font-medium text-gray-600;
+}
+
+.account-details__value {
+  @apply mt-1 text-gray-950;
+}
+
+.account-details__value--email {
+  @apply break-all;
+}
+
+.admin-users {
+  @apply mt-6 rounded-xl border border-gray-200 bg-white px-5 shadow-sm;
+}
+
+.admin-users > * + * {
+  @apply border-t border-gray-200;
+}
+
+.admin-users__item {
+  @apply py-4;
+}
+
+.admin-users__name {
+  @apply font-semibold text-gray-950;
+}
+
+.admin-users__email {
+  @apply break-all text-sm text-gray-600;
+}
+
+.admin-users__role {
+  @apply mt-2 inline-block rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-900;
+}
+
+@media (min-width: 640px) {
+  .account-page {
+    @apply pt-32;
+  }
+
+  .account-details__row {
+    @apply grid grid-cols-3 gap-4;
+  }
+
+  .account-details__value {
+    @apply col-span-2 mt-0;
+  }
+
+  .admin-users__item {
+    @apply flex items-center justify-between;
+  }
+
+  .admin-users__role {
+    @apply mt-0;
+  }
+}
