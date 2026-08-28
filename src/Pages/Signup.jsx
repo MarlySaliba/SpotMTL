@@ -1,21 +1,21 @@
-import LoginForm from "../authentication/Login";
+import SignupForm from "../authentication/Signup";
 import useLanguage from "../i18n/useLanguage";
 
-export default function Login() {
+export default function Signup() {
   const { language } = useLanguage();
 
   return (
     <article className="auth-page">
       <div className="auth-page__card">
         <h1 className="auth-page__title">
-          {language === "fr" ? "Connexion" : "Log in"}
+          {language === "fr" ? "Créer un compte" : "Create an account"}
         </h1>
         <p className="auth-page__intro">
           {language === "fr"
-            ? "Accédez à votre compte SpotMTL."
-            : "Access your SpotMTL account."}
+            ? "Créez votre profil SpotMTL en quelques étapes."
+            : "Create your SpotMTL profile in a few steps."}
         </p>
-        <LoginForm />
+        <SignupForm />
       </div>
     </article>
   );

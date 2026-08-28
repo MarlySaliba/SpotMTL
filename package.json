@@ -14,6 +14,7 @@
     "db:seed": "npm --prefix server run db:seed",
     "db:set-user-role": "npm --prefix server run db:set-user-role --",
     "test:server": "npm --prefix server test",
+    "test:frontend": "node --test src/api/auth.test.js",
     "build:server": "npm --prefix server run build",
     "lint:server": "npm --prefix server run lint",
     "build": "vite build",
