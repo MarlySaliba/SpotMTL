@@ -1,6 +1,6 @@
-// src/Pages/Home.jsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useLanguage from "../i18n/useLanguage";
 
 import img1 from "../assets/Dome_expo.jpg";
 import img2 from "../assets/downtown_night.jpg";
@@ -8,95 +8,133 @@ import img3 from "../assets/LaRonde.webp";
 import img4 from "../assets/Oratoire_St_Joseph.jpg";
 import img5 from "../assets/Canal_Lachine.avif";
 
+const homeCopy = {
+  fr: {
+    activities: "Activités",
+    activitiesAria: "Parcourir les activités",
+    activitiesDescription: "Des idées amusantes à découvrir en toute saison.",
+    attractions: "Attractions",
+    attractionsAria: "Parcourir les attractions",
+    attractionsDescription: "Musées, parcs et lieux incontournables.",
+    explore: "Explorer Montréal",
+    exploreAria: "Explorer Montréal dans la page de recherche",
+    intro:
+      "Découvrez les meilleures attractions, activités et restaurants de Montréal, réunis au même endroit.",
+    popular: "Catégories populaires",
+    restaurants: "Restaurants",
+    restaurantsAria: "Parcourir les restaurants",
+    restaurantsDescription:
+      "Découvrez quelques-unes des meilleures expériences culinaires de Montréal.",
+    welcome: "Bienvenue sur",
+  },
+  en: {
+    activities: "Activities",
+    activitiesAria: "Browse activities",
+    activitiesDescription: "Fun things to discover all year round.",
+    attractions: "Attractions",
+    attractionsAria: "Browse attractions",
+    attractionsDescription: "Museums, parks, and must-see spots.",
+    explore: "Explore Montréal",
+    exploreAria: "Explore Montréal on the search page",
+    intro:
+      "Discover the best attractions, activities, and restaurants in Montréal, all in one place.",
+    popular: "Popular Categories",
+    restaurants: "Restaurants",
+    restaurantsAria: "Browse restaurants",
+    restaurantsDescription:
+      "Discover some of the best dining experiences in Montréal.",
+    welcome: "Welcome to",
+  },
+};
+
 export default function Home() {
   const slides = [img1, img2, img3, img4, img5];
   const [index, setIndex] = useState(0);
+  const { language } = useLanguage();
+  const copy = homeCopy[language];
 
-  // Change slide every 5 seconds
   useEffect(() => {
     const id = setInterval(() => {
-      setIndex((i) => (i + 1) % slides.length);
+      setIndex((currentIndex) => (currentIndex + 1) % slides.length);
     }, 5000);
+
     return () => clearInterval(id);
   }, [slides.length]);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* HERO with slideshow background */}
-      <section className="relative flex-1">
-        <div className="relative h-[420px] md:h-[520px] overflow-hidden">
-          {slides.map((src, i) => (
+    <div className="home-page">
+      <section className="home-page__hero">
+        <div className="home-page__slideshow">
+          {slides.map((src, slideIndex) => (
             <img
-              key={i}
+              key={src}
               src={src}
               alt=""
-              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
-                i === index ? "opacity-100" : "opacity-0"
+              className={`home-page__slide ${
+                slideIndex === index ? "home-page__slide--active" : ""
               }`}
-              aria-hidden={i !== index}
+              aria-hidden={slideIndex !== index}
             />
           ))}
 
-          <div className="absolute inset-0 bg-black/35" />
+          <div className="home-page__overlay" />
 
-          <div className="relative z-10 flex items-center justify-center h-full p-6">
-            <div className="max-w-2xl text-center">
-              <h1 className="mb-4 text-4xl font-bold text-white">
-                Welcome to <span className="text-green-300">SpotMTL</span>
+          <div className="home-page__hero-content">
+            <div className="home-page__hero-copy">
+              <h1 className="home-page__title">
+                {copy.welcome}{" "}
+                <span className="home-page__brand">SpotMTL</span>
               </h1>
-              <p className="mb-6 text-lg text-white/90">
-                Discover the best attractions, activities, and restaurants in
-                Montreal — all in one place.
-              </p>
+              <p className="home-page__intro">{copy.intro}</p>
               <Link
                 to="../Pages/Search"
-                className="inline-block px-6 py-3 font-medium text-white bg-green-600 rounded-lg shadow-md hover:bg-green-700"
-                aria-label="Start exploring Montreal on the search page"
+                className="home-page__explore-link"
+                aria-label={copy.exploreAria}
               >
-                Start Exploring
+                {copy.explore}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Categories */}
-      <section className="px-6 py-12 bg-white">
-        <h2 className="mb-8 text-2xl font-semibold text-center">
-          Popular Categories
+      <section className="home-page__categories">
+        <h2 className="home-page__categories-title">
+          {copy.popular}
         </h2>
 
-        <div className="grid max-w-6xl grid-cols-1 gap-6 mx-auto md:grid-cols-3">
-          {/* Attractions */}
+        <div className="home-page__category-grid">
           <Link
-            to="/search?category=Attractions"
-            className="p-6 text-center transition-colors bg-gray-100 rounded-lg shadow hover:bg-green-100"
-            aria-label="Browse Attractions"
+            to="/Pages/Search"
+            className="home-page__category-card"
+            aria-label={copy.attractionsAria}
           >
-            <h3 className="mb-2 font-bold">Attractions</h3>
-            <p className="text-gray-600">Museums, parks, and must-see spots.</p>
-          </Link>
-
-          {/* Restaurants */}
-          <Link
-            to="/search?category=Restaurants"
-            className="p-6 text-center transition-colors bg-gray-100 rounded-lg shadow hover:bg-green-100"
-            aria-label="Browse Restaurants"
-          >
-            <h3 className="mb-2 font-bold">Restaurants</h3>
-            <p className="text-gray-600">
-              The best dining experiences in Montreal.
+            <h3 className="home-page__category-title">{copy.attractions}</h3>
+            <p className="home-page__category-description">
+              {copy.attractionsDescription}
             </p>
           </Link>
 
-          {/* Activities */}
           <Link
-            to="/search?category=Activities"
-            className="p-6 text-center transition-colors bg-gray-100 rounded-lg shadow hover:bg-green-100"
-            aria-label="Browse Activities"
+            to="/Pages/Search"
+            className="home-page__category-card"
+            aria-label={copy.restaurantsAria}
           >
-            <h3 className="mb-2 font-bold">Activities</h3>
-            <p className="text-gray-600">Fun things to do all year round.</p>
+            <h3 className="home-page__category-title">{copy.restaurants}</h3>
+            <p className="home-page__category-description">
+              {copy.restaurantsDescription}
+            </p>
+          </Link>
+
+          <Link
+            to="/Pages/Search"
+            className="home-page__category-card"
+            aria-label={copy.activitiesAria}
+          >
+            <h3 className="home-page__category-title">{copy.activities}</h3>
+            <p className="home-page__category-description">
+              {copy.activitiesDescription}
+            </p>
           </Link>
         </div>
       </section>
