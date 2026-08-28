@@ -17,6 +17,7 @@
     "db:migrate:down": "ts-node -r tsconfig-paths/register scripts/run-migrations.ts down",
     "db:migration:create": "node-pg-migrate create --migration-file-language ts --migrations-dir migrations",
     "db:seed": "ts-node -r tsconfig-paths/register scripts/seed-attractions.ts",
+    "db:set-user-role": "ts-node -r tsconfig-paths/register scripts/set-user-role.ts",
     "lint": "eslint \"{src,scripts,test,migrations}/**/*.ts\"",
     "test": "jest --runInBand",
     "test:watch": "jest --watch",

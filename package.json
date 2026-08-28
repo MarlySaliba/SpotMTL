@@ -12,6 +12,7 @@
     "db:migrate:down": "npm --prefix server run db:migrate:down",
     "db:migration:create": "npm --prefix server run db:migration:create --",
     "db:seed": "npm --prefix server run db:seed",
+    "db:set-user-role": "npm --prefix server run db:set-user-role --",
     "test:server": "npm --prefix server test",
     "build:server": "npm --prefix server run build",
     "lint:server": "npm --prefix server run lint",
